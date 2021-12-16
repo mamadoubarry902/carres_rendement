@@ -6,16 +6,19 @@
         <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
         <meta name="mobile-web-app-capable" content="yes">
         <meta name="apple-mobile-web-app-capable" content="yes">
-        <link rel="stylesheet" href="css/leaflet.css"><link rel="stylesheet" href="css/L.Control.Locate.min.css">
+        <link rel="stylesheet" href="css/leaflet.css">
         <link rel="stylesheet" href="css/qgis2web.css"><link rel="stylesheet" href="css/fontawesome-all.min.css">
         <link rel="stylesheet" href="css/MarkerCluster.css">
         <link rel="stylesheet" href="css/MarkerCluster.Default.css">
+        <link rel="stylesheet" href="css/leaflet-search.css">
         <link rel="stylesheet" href="css/leaflet-control-geocoder.Geocoder.css">
         <link rel="stylesheet" href="css/leaflet-measure.css">
         <style>
-        #map {
-            width: 1640px;
-            height: 813px;
+        html, body, #map {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
         }
         </style>
         <title></title>
@@ -24,7 +27,7 @@
         <div id="map">
         </div>
         <script src="js/qgis2web_expressions.js"></script>
-        <script src="js/leaflet.js"></script><script src="js/L.Control.Locate.min.js"></script>
+        <script src="js/leaflet.js"></script>
         <script src="js/leaflet.rotatedMarker.js"></script>
         <script src="js/leaflet.pattern.js"></script>
         <script src="js/leaflet-hash.js"></script>
@@ -35,6 +38,7 @@
         <script src="js/leaflet-control-geocoder.Geocoder.js"></script>
         <script src="js/leaflet-measure.js"></script>
         <script src="js/leaflet.markercluster.js"></script>
+        <script src="js/leaflet-search.js"></script>
         <script src="data/carres2021_1.js"></script>
         <script>
         var highlightLayer;
@@ -58,7 +62,6 @@
         var hash = new L.Hash(map);
         map.attributionControl.setPrefix('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
         var autolinker = new Autolinker({truncate: {length: 30, location: 'smart'}});
-        L.control.locate({locateOptions: {maxZoom: 19}}).addTo(map);
         var measureControl = new L.Control.Measure({
             position: 'topleft',
             primaryLengthUnit: 'meters',
@@ -98,70 +101,70 @@
             });
             var popupContent = '<table>\
                     <tr>\
-                        <td colspan="2">' + (feature.properties['date'] !== null ? autolinker.link(feature.properties['date'].toLocaleString()) : '') + '</td>\
+                        <td colspan="2"><strong>date</strong><br />' + (feature.properties['date'] !== null ? autolinker.link(feature.properties['date'].toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <td colspan="2">' + (feature.properties['investigator'] !== null ? autolinker.link(feature.properties['investigator'].toLocaleString()) : '') + '</td>\
+                        <td colspan="2"><strong>investigator</strong><br />' + (feature.properties['investigator'] !== null ? autolinker.link(feature.properties['investigator'].toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
                         <td colspan="2"><strong>tabanca</strong><br />' + (feature.properties['tabanca'] !== null ? autolinker.link(feature.properties['tabanca'].toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <td colspan="2">' + (feature.properties['nome_productor'] !== null ? autolinker.link(feature.properties['nome_productor'].toLocaleString()) : '') + '</td>\
+                        <td colspan="2"><strong>nome_productor</strong><br />' + (feature.properties['nome_productor'] !== null ? autolinker.link(feature.properties['nome_productor'].toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <td colspan="2">' + (feature.properties['adubacao_viveiro'] !== null ? autolinker.link(feature.properties['adubacao_viveiro'].toLocaleString()) : '') + '</td>\
+                        <td colspan="2"><strong>adubacao_viveiro</strong><br />' + (feature.properties['adubacao_viveiro'] !== null ? autolinker.link(feature.properties['adubacao_viveiro'].toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <td colspan="2">' + (feature.properties['camalhoes_viveiro'] !== null ? autolinker.link(feature.properties['camalhoes_viveiro'].toLocaleString()) : '') + '</td>\
+                        <td colspan="2"><strong>camalhoes_viveiro</strong><br />' + (feature.properties['camalhoes_viveiro'] !== null ? autolinker.link(feature.properties['camalhoes_viveiro'].toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
                         <td colspan="2"><strong>semeadura_viveiro</strong><br />' + (feature.properties['semeadura_viveiro'] !== null ? autolinker.link(feature.properties['semeadura_viveiro'].toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <td colspan="2">' + (feature.properties['inseticida_viveiro'] !== null ? autolinker.link(feature.properties['inseticida_viveiro'].toLocaleString()) : '') + '</td>\
+                        <td colspan="2"><strong>inseticida_viveiro</strong><br />' + (feature.properties['inseticida_viveiro'] !== null ? autolinker.link(feature.properties['inseticida_viveiro'].toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <td colspan="2">' + (feature.properties['lavoura_arrozal'] !== null ? autolinker.link(feature.properties['lavoura_arrozal'].toLocaleString()) : '') + '</td>\
+                        <td colspan="2"><strong>lavoura_arrozal</strong><br />' + (feature.properties['lavoura_arrozal'] !== null ? autolinker.link(feature.properties['lavoura_arrozal'].toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <td colspan="2">' + (feature.properties['pisoteio_arrozal'] !== null ? autolinker.link(feature.properties['pisoteio_arrozal'].toLocaleString()) : '') + '</td>\
+                        <td colspan="2"><strong>pisoteio_arrozal</strong><br />' + (feature.properties['pisoteio_arrozal'] !== null ? autolinker.link(feature.properties['pisoteio_arrozal'].toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <td colspan="2">' + (feature.properties['camalhoes_arrozal'] !== null ? autolinker.link(feature.properties['camalhoes_arrozal'].toLocaleString()) : '') + '</td>\
+                        <td colspan="2"><strong>camalhoes_arrozal</strong><br />' + (feature.properties['camalhoes_arrozal'] !== null ? autolinker.link(feature.properties['camalhoes_arrozal'].toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <td colspan="2">' + (feature.properties['nivel_agua_arrozal'] !== null ? autolinker.link(feature.properties['nivel_agua_arrozal'].toLocaleString()) : '') + '</td>\
+                        <td colspan="2"><strong>nivel_agua_arrozal</strong><br />' + (feature.properties['nivel_agua_arrozal'] !== null ? autolinker.link(feature.properties['nivel_agua_arrozal'].toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <td colspan="2">' + (feature.properties['cm_nivel_agua_arrozal'] !== null ? autolinker.link(feature.properties['cm_nivel_agua_arrozal'].toLocaleString()) : '') + '</td>\
+                        <td colspan="2"><strong>cm_nivel_agua_arrozal</strong><br />' + (feature.properties['cm_nivel_agua_arrozal'] !== null ? autolinker.link(feature.properties['cm_nivel_agua_arrozal'].toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <td colspan="2">' + (feature.properties['estirpacao_transplante'] !== null ? autolinker.link(feature.properties['estirpacao_transplante'].toLocaleString()) : '') + '</td>\
+                        <td colspan="2"><strong>estirpacao_transplante</strong><br />' + (feature.properties['estirpacao_transplante'] !== null ? autolinker.link(feature.properties['estirpacao_transplante'].toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <td colspan="2">' + (feature.properties['transplante'] !== null ? autolinker.link(feature.properties['transplante'].toLocaleString()) : '') + '</td>\
+                        <td colspan="2"><strong>transplante</strong><br />' + (feature.properties['transplante'] !== null ? autolinker.link(feature.properties['transplante'].toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <td colspan="2">' + (feature.properties['type_activite'] !== null ? autolinker.link(feature.properties['type_activite'].toLocaleString()) : '') + '</td>\
+                        <td colspan="2"><strong>type_activite</strong><br />' + (feature.properties['type_activite'] !== null ? autolinker.link(feature.properties['type_activite'].toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <td colspan="2">' + (feature.properties['type_parcelle'] !== null ? autolinker.link(feature.properties['type_parcelle'].toLocaleString()) : '') + '</td>\
+                        <td colspan="2"><strong>type_parcelle</strong><br />' + (feature.properties['type_parcelle'] !== null ? autolinker.link(feature.properties['type_parcelle'].toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <td colspan="2">' + (feature.properties['dispositif_gep'] !== null ? autolinker.link(feature.properties['dispositif_gep'].toLocaleString()) : '') + '</td>\
+                        <td colspan="2"><strong>dispositif_gep</strong><br />' + (feature.properties['dispositif_gep'] !== null ? autolinker.link(feature.properties['dispositif_gep'].toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <td colspan="2">' + (feature.properties['numero_parcella'] !== null ? autolinker.link(feature.properties['numero_parcella'].toLocaleString()) : '') + '</td>\
+                        <td colspan="2"><strong>numero_parcella</strong><br />' + (feature.properties['numero_parcella'] !== null ? autolinker.link(feature.properties['numero_parcella'].toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <td colspan="2">' + (feature.properties['largura'] !== null ? autolinker.link(feature.properties['largura'].toLocaleString()) : '') + '</td>\
+                        <td colspan="2"><strong>largura</strong><br />' + (feature.properties['largura'] !== null ? autolinker.link(feature.properties['largura'].toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <td colspan="2">' + (feature.properties['nombre_poquet'] !== null ? autolinker.link(feature.properties['nombre_poquet'].toLocaleString()) : '') + '</td>\
+                        <td colspan="2"><strong>nombre_poquet</strong><br />' + (feature.properties['nombre_poquet'] !== null ? autolinker.link(feature.properties['nombre_poquet'].toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <td colspan="2">' + (feature.properties['appreciation_plant'] !== null ? autolinker.link(feature.properties['appreciation_plant'].toLocaleString()) : '') + '</td>\
+                        <td colspan="2"><strong>appreciation_plant</strong><br />' + (feature.properties['appreciation_plant'] !== null ? autolinker.link(feature.properties['appreciation_plant'].toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
                         <td colspan="2">' + (feature.properties['x'] !== null ? autolinker.link(feature.properties['x'].toLocaleString()) : '') + '</td>\
@@ -263,8 +266,15 @@
         document.getElementsByClassName('leaflet-control-geocoder-icon')[0]
         .title += 'Search for a place';
         var baseMaps = {};
-        L.control.layers(baseMaps,{'carres2021<br /><table><tr><td style="text-align: center;"><img src="legend/carres2021_1_parcelasdecontroleemcomparacaocomparcelasexperimentais0.png" /></td><td>parcelas de controle em comparacao com parcelas experimentais</td></tr><tr><td style="text-align: center;"><img src="legend/carres2021_1_Parcelasexperimentaisaguasalgada1.png" /></td><td>Parcelas experimentais: agua salgada</td></tr><tr><td style="text-align: center;"><img src="legend/carres2021_1_Parcelasnormais2.png" /></td><td>Parcelas normais</td></tr></table>': cluster_carres2021_1,"hybride": layer_hybride_0,},{collapsed:false}).addTo(map);
+        L.control.layers(baseMaps,{'carres2021<br /><table><tr><td style="text-align: center;"><img src="legend/carres2021_1_parcelasdecontroleemcomparacaocomparcelasexperimentais0.png" /></td><td>parcelas de controle em comparacao com parcelas experimentais</td></tr><tr><td style="text-align: center;"><img src="legend/carres2021_1_Parcelasexperimentaisaguasalgada1.png" /></td><td>Parcelas experimentais: agua salgada</td></tr><tr><td style="text-align: center;"><img src="legend/carres2021_1_Parcelasnormais2.png" /></td><td>Parcelas normais</td></tr></table>': cluster_carres2021_1,"hybride": layer_hybride_0,}).addTo(map);
         setBounds();
+        map.addControl(new L.Control.Search({
+            layer: cluster_carres2021_1,
+            initial: false,
+            hideMarkerOnCollapse: true,
+            propertyName: 'tabanca'}));
+        document.getElementsByClassName('search-button')[0].className +=
+         ' fa fa-binoculars';
         </script>
     </body>
 </html>
